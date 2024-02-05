@@ -1,7 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, FlatList, Image, Dimensions, ListRenderItem } from 'react-native';
+import { View, Text, FlatList, Image, Dimensions, ListRenderItem, StyleSheet } from 'react-native';
 import ListTags from '../ui/ListTags';
+import ModalAdd from '../ui/ModalAdd';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface Document {
   id: number;
@@ -24,7 +26,7 @@ function VaultScreen({}: VaultScreenProps) {
       id: 2,
       title: 'Driver License',
       image: 'https://images.eplaque.fr/wp-content/uploads/2020/04/18145834/Visuel-permis-conduire-recto2.jpg',
-      tags: ['ID'],
+      tags: ['Lol'],
     },
     {
       id: 3,
@@ -50,6 +52,9 @@ function VaultScreen({}: VaultScreenProps) {
 
   const navigation = useNavigation();
 
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   const handleTagPress = (tag: string) => {
         setSelectedFilter(tag);
   };
@@ -60,7 +65,8 @@ function VaultScreen({}: VaultScreenProps) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ListTags tags={['Travel', 'ID']} onPressTag={handleTagPress} />
+      <ModalAdd modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+      <ListTags tags={['Travel', 'ID','Lol']} onPressTag={handleTagPress} />
       <FlatList
         data={filteredDocuments}
         renderItem={renderItem}
@@ -68,14 +74,16 @@ function VaultScreen({}: VaultScreenProps) {
         numColumns={2}
         contentContainerStyle={styles.container}
       />
+      <View style={styles.ModalButton}>
+        <Icon name="plus-square" size={30} color="black" onPress={() => setModalVisible(true)} />
+      </View>
     </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'space-between',
     padding: 16,
   },
   document: {
@@ -89,6 +97,14 @@ const styles = {
     padding: 8,
     fontWeight: 'bold',
   },
-};
+  ModalButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor : '#e89bdd',
+    borderRadius : 2000,
+    padding : 10,
+  },
+});
 
 export default VaultScreen;
