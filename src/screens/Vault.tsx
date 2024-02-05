@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, FlatList, Image, Dimensions, ListRenderItem, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Image, Dimensions, ListRenderItem, StyleSheet, Pressable } from 'react-native';
 import ListTags from '../ui/ListTags';
 import ModalAdd from '../ui/ModalAdd';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -42,11 +42,11 @@ function VaultScreen({}: VaultScreenProps) {
     const itemWidth = (Dimensions.get('window').width - 40) / 2;
 
     return (
-      <View style={[styles.document, { width: itemWidth }]}>
+      <Pressable style={[styles.document, { width: itemWidth }]} onPress={() => navigation.navigate('Document')}>
         <Text style={styles.title}>{item.title}</Text>
         <Image source={{ uri: item.image }} style={{ width: '100%', height: 200 }} />
         <ListTags tags={item.tags}/>
-      </View>
+      </Pressable>
     );
   };
 

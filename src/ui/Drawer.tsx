@@ -1,5 +1,8 @@
-import { DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItem, DrawerItemList, createDrawerNavigator } from "@react-navigation/drawer";
 import { Linking, StyleSheet, Text, View } from "react-native";
+import VaultScreen from "../screens/Vault";
+import { createStackNavigator } from "@react-navigation/stack";
+import Document from "../screens/Document";
 
 /*
             <DrawerItem
@@ -8,7 +11,7 @@ import { Linking, StyleSheet, Text, View } from "react-native";
             />
 */
 
-function Drawer(props: any) {
+function DrawerCustom(props: any) {
     return (
         <DrawerContentScrollView {...props}>
             <View >
@@ -17,6 +20,34 @@ function Drawer(props: any) {
             </View>
             <DrawerItemList {...props} />
         </DrawerContentScrollView>
+    );
+}
+
+function DocumentStack() {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator initialRouteName="Vault">
+        <Stack.Screen
+          name="Vault"
+          component={VaultScreen}
+          headerShown={false}
+          options={{ headerMode: 'none', headerShown: false }}
+        />
+        <Stack.Screen
+          name="Document"
+          component={Document}
+        />
+      </Stack.Navigator>
+    );
+}
+
+function Drawer(){
+    const localDrawer = createDrawerNavigator();
+    return (
+        <localDrawer.Navigator drawerContent={(props) => <DrawerCustom {...props} />} initialRouteName="VaultDoc">
+          <localDrawer.Screen name="VaultDoc" component={DocumentStack} />
+          <localDrawer.Screen name="Settings" component={VaultScreen} />
+        </localDrawer.Navigator>
     );
 }
 
