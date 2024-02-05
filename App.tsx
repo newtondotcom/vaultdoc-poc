@@ -12,8 +12,8 @@ function App() {
   return (
     <NavigationContainer>
       <localDrawer.Navigator drawerContent={(props) => <Drawer {...props} />}>
-        <localDrawer.Screen name="Feed" component={VaultScreen} />
-        <localDrawer.Screen name="Article" component={VaultScreen} />
+        <localDrawer.Screen name="VaultDoc" component={VaultScreen} />
+        <localDrawer.Screen name="Settings" component={VaultScreen} />
       </localDrawer.Navigator>
     </NavigationContainer>
   );
