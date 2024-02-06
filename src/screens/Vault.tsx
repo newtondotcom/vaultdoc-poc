@@ -64,7 +64,7 @@ function VaultScreen({}: VaultScreenProps) {
     : documents;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, alignContent : "flex-start", justifyContent:"flex-start" }}>
       <ModalAdd modalVisible={modalVisible} setModalVisible={setModalVisible}/>
       <ListTags tags={['Travel', 'ID','Lol']} onPressTag={handleTagPress} />
       <FlatList
