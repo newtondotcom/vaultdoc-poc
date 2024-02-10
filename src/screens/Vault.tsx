@@ -8,65 +8,54 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 interface Document {
   id: number;
   title: string;
-  image: string;
-  tags: string[];
+  count : number;
 }
 
-interface VaultScreenProps {}
+interface FolderScreenProps {}
 
-function VaultScreen({}: VaultScreenProps) {
+function FolderScreen({}: FolderScreenProps) {
   const documents: Document[] = [
     {
       id: 1,
       title: 'Passport',
-      image: 'https://media.graphiline.com/graphiline/43490/canada-impression-securisee-passeport-11.jpg',
-      tags: ['Travel', 'ID'],
+      count : 1,
     },
     {
       id: 2,
       title: 'Driver License',
-      image: 'https://images.eplaque.fr/wp-content/uploads/2020/04/18145834/Visuel-permis-conduire-recto2.jpg',
-      tags: ['Lol'],
+      count : 2,
     },
     {
       id: 3,
       title: 'Birth Certificate',
-      image: 'https://amp.gdoc.io/uploads/Birth-Certificate-w-984x712.jpg',
-      tags: ['ID'],
+      count : 3,
     },
   ];
-
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
 
   const renderItem: ListRenderItem<Document> = ({ item }) => {
     const itemWidth = (Dimensions.get('window').width - 40) / 2;
 
     return (
-      <Pressable style={[styles.document, { width: itemWidth }]} onPress={() => navigation.navigate('Document')}>
+      <Pressable style={[styles.document, { width: itemWidth }]} 
+      onPress={() => navigation.navigate('DocsScreen')}
+      onLongPress={() => console.log('long press')}
+      >
         <Text style={styles.title}>{item.title}</Text>
-        <Image source={{ uri: item.image }} style={{ width: '100%', height: 200 }} />
-        <ListTags tags={item.tags}/>
+        <Icon name="folder" size={100} color="black" style={styles.icon} />
+        <Text style={styles.count}>{item.count} documents</Text>
       </Pressable>
     );
   };
 
   const navigation = useNavigation();
+  const filteredDocuments = documents;
 
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleTagPress = (tag: string) => {
-        setSelectedFilter(tag);
-  };
-
-  const filteredDocuments = selectedFilter
-    ? documents.filter((document) => document.tags.includes(selectedFilter))
-    : documents;
-
   return (
-    <View style={{ flex: 1, alignContent : "flex-start", justifyContent:"flex-start" }}>
+    <View style={styles.page}>
       <ModalAdd modalVisible={modalVisible} setModalVisible={setModalVisible}/>
-      <ListTags tags={['Travel', 'ID','Lol']} onPressTag={handleTagPress} />
       <FlatList
         data={filteredDocuments}
         renderItem={renderItem}
@@ -105,6 +94,15 @@ const styles = StyleSheet.create({
     borderRadius : 2000,
     padding : 10,
   },
+  icon : {
+    alignSelf : 'center',
+  },
+  count : {
+    padding : 8,
+    fontWeight : "300",
+  },
+  page : {
+  }
 });
 
-export default VaultScreen;
+export default FolderScreen;
