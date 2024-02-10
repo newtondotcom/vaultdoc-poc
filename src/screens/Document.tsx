@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions, StyleSheet, Pressable, ShareContent } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Pressable, ShareContent, ShareOptions } from 'react-native';
 import Pdf from 'react-native-pdf';
 import { Share } from "react-native";
 import mockData from '../utils/mock';
