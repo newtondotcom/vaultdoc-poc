@@ -27,14 +27,17 @@ const ListTags: React.FC<ListTagsProps> = ({ tags, onPressTag }) => {
     if (!onPressTag) {
       return;
     }
+  
     if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
+      // If the clicked tag is already selected, deselect it
+      setSelectedTags([]);
       onPressTag('');
     } else {
-      setSelectedTags([...selectedTags, tag]);
+      // Deselect the previously selected tag (if any) and select the new tag
+      setSelectedTags([tag]);
       onPressTag(tag);
     }
-  };
+  };  
 
   const handleClearPress = () => {
     if (onPressTag){
