@@ -1,8 +1,11 @@
 import { DrawerContentScrollView, DrawerItem, DrawerItemList, createDrawerNavigator } from "@react-navigation/drawer";
 import { Linking, StyleSheet, Text, View } from "react-native";
-import VaultScreen from "../screens/Vault";
-import { createStackNavigator } from "@react-navigation/stack";
+import FolderScreen from "../screens/Vault";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Document from "../screens/Document";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from 'react-native-vector-icons/Ionicons';
+import DocsScreen from "../screens/Docs";
 
 /*
             <DrawerItem
@@ -11,6 +14,7 @@ import Document from "../screens/Document";
             />
 */
 
+/*
 function DrawerCustom(props: any) {
     return (
         <DrawerContentScrollView {...props}>
@@ -23,24 +27,6 @@ function DrawerCustom(props: any) {
     );
 }
 
-function DocumentStack() {
-    const Stack = createStackNavigator();
-    return (
-        <Stack.Navigator initialRouteName="Vault">
-        <Stack.Screen
-          name="Vault"
-          component={VaultScreen}
-          headerShown={false}
-          options={{ headerMode: 'none', headerShown: false }}
-        />
-        <Stack.Screen
-          name="Document"
-          component={Document}
-        />
-      </Stack.Navigator>
-    );
-}
-
 function Drawer(){
     const localDrawer = createDrawerNavigator();
     return (
@@ -48,6 +34,63 @@ function Drawer(){
           <localDrawer.Screen name="VaultDoc" component={DocumentStack} />
           <localDrawer.Screen name="Settings" component={VaultScreen} />
         </localDrawer.Navigator>
+    );
+}
+*/
+
+function DocumentStack() {
+    const Stack = createNativeStackNavigator();
+    return (
+        <Stack.Navigator initialRouteName="Vault">
+        <Stack.Screen
+          name="FoldersScreen"
+          component={FolderScreen}
+          headerShown={false}
+          options={{ headerMode: 'none', headerShown: false }}
+        />
+        <Stack.Screen
+          name="DocsScreen"
+          component={DocsScreen}
+          headerShown={false}
+          options={{ headerMode: 'none', headerShown: false }}
+        />
+        <Stack.Screen
+          name="Document"
+          component={Document}
+          options={{ headerMode: 'none', headerShown: false }}
+        />
+      </Stack.Navigator>
+    );
+}
+
+function Drawer() {
+    const Tab = createBottomTabNavigator();
+    return (
+        <Tab.Navigator initialRouteName="Vault" 
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Vault') {
+              iconName = focused
+                ? 'information-circle'
+                : 'information-circle-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'settings' : 'settings-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}>
+            <Tab.Screen name="Vault" component={ DocumentStack}
+          options={{ headerMode: 'none', headerShown: false }} />
+            <Tab.Screen name="Settings" component={Document}
+          options={{ headerMode: 'none', headerShown: false }} />
+
+        </Tab.Navigator>
     );
 }
 
